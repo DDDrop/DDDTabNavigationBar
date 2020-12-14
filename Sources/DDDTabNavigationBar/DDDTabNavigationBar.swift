@@ -13,8 +13,8 @@ import SwiftUI
 struct DDDTabItem<Item>: View where Item: View {
     @Binding var selected: Int
     let index: Int
+    var zoomRate: CGFloat = 1
     let item: () -> Item
-    let zoomRate: CGFloat = 1
     
     var body: some View {
         item()
@@ -43,15 +43,14 @@ public struct DDDTabNavigationBar<Item, Indicator>: View where Item: View, Indic
     }
     
     public var body: some View {
-        VStack {
-            HStack(alignment: .bottom) {
-                ForEach(0..<items.count) { index in
-                    DDDTabItem(selected: $selected, index: index) {
-                        items[index]
-                    }
+        HStack {
+            ForEach(0..<items.count) { index in
+                DDDTabItem(selected: $selected, index: index, zoomRate: zoomRate) {
+                    items[index]
                 }
             }
-        }.backgroundPreferenceValue(DDDTabItemPreferenceKey.self) { preferences in
+        }
+        .backgroundPreferenceValue(DDDTabItemPreferenceKey.self) { preferences in
             GeometryReader { geometry in
                 self.createBorder(geometry, preferences)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
