@@ -30,12 +30,12 @@ struct DDDTabItem<Item>: View where Item: View {
 
 
 public struct DDDTabNavigationBar<Item, Indicator>: View where Item: View, Indicator: View {
-    @Binding var selected: Int
+    @State var selected: Int
     let zoomRate: CGFloat
     let items: [Item]
     let indicator: () -> Indicator
     
-    public init(selected: Binding<Int>, zoomRate: CGFloat = 1, items: [Item], indicator: @escaping () -> Indicator) {
+    public init(selected: State<Int>, zoomRate: CGFloat = 1, items: [Item], indicator: @escaping () -> Indicator) {
         self.items = items
         self._selected = selected
         self.indicator = indicator
