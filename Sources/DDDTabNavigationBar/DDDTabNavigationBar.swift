@@ -34,12 +34,14 @@ public struct DDDTabNavigationBar<Item, Indicator>: View where Item: View, Indic
     let zoomRate: CGFloat
     let items: [Item]
     let indicator: () -> Indicator
+    let indicatorHeight: CGFloat
     
-    public init(selected: Binding<Int>, zoomRate: CGFloat = 1, items: [Item], indicator: @escaping () -> Indicator) {
+    public init(selected: Binding<Int>, zoomRate: CGFloat = 1, items: [Item], indicatorHeight: CGFloat = 4, indicator: @escaping () -> Indicator) {
         self.items = items
         self._selected = selected
         self.indicator = indicator
         self.zoomRate = zoomRate
+        self.indicatorHeight = indicatorHeight
     }
     
     public var body: some View {
@@ -56,6 +58,7 @@ public struct DDDTabNavigationBar<Item, Indicator>: View where Item: View, Indic
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
             }
         }
+        Spacer().frame(height: max(indicatorHeight - 6, 0))
     }
     
     func createBorder(_ geometry: GeometryProxy, _ preferences: [DDDTabItemPreferenceData]) -> some View {
@@ -69,7 +72,7 @@ public struct DDDTabNavigationBar<Item, Indicator>: View where Item: View, Indic
         
         return DDDTabIndicatorWrapper(offset: CGPoint(x: topLeading.x, y: 4), width: bottomTrailing.x - topLeading.x) {
             GeometryReader {
-                DDDTabIndicatorDefault().frame(minWidth: $0.size.width)
+                indicator().frame(minWidth: $0.size.width, maxHeight: indicatorHeight)
             }
         }
     }
