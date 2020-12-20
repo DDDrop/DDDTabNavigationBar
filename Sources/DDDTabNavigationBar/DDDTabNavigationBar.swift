@@ -73,7 +73,7 @@ public struct DDDTabNavigationBar<Item, Indicator>: View where Item: View, Indic
         return DDDTabIndicatorWrapper(offset: CGPoint(x: topLeading.x, y: 4), width: bottomTrailing.x - topLeading.x) {
             GeometryReader {
                 indicator().frame(minWidth: $0.size.width, maxHeight: indicatorHeight)
-            }
+            }.animation(.easeInOut)
         }
     }
 }
